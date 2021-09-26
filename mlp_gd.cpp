@@ -9,12 +9,13 @@
  * matrices which makes it less efficient but hopefully easy to understand.
  * 
  * All layers use sigmoid activation function, standard gradient descent 
- * optimisation, all layers except output have a bias, learning rate is 0.2,
- * epochs is 4000. 
+ * optimisation, loss function is mean squared error, all layers except 
+ * output have a bias, learning rate is 0.2, epochs is 4000. 
  */
 
 using namespace std;
 #define LR 0.2
+#define EPOCHS 4000
 
 // forward declaration due to codependent classes node and layer
 class Layer; 
@@ -232,34 +233,6 @@ void Node::predict(Layer leftLayer) {
 
 
 /**
- * class for 2D double array to hold data
- */ 
-class Matrix {
-    public:
-        int height, width;
-        double *d;
-
-        Matrix(int height, int width) {
-            d = new double[height * width];
-            this->height = height;
-            this->width = width;
-        }
-
-        double get(int row, int col) {
-            return d[row + col * height];
-        }
-        
-        void set(int row, int col, double val) {
-            d[row + col * height] = val;
-        }
-
-        void del() {
-            delete[] d;
-        }
-};
-
-
-/**
  * Multi-layer perceptron class 
  */ 
 class MLP {
@@ -295,18 +268,20 @@ class MLP {
          *  predicts output for every row of data in input Matrix
          *  returns the output predictions in equivalent row of Matrix
          */
-        Matrix* predict(Matrix m) {
+        std::vector<std::vector<double>> predict(std::vector<std::vector<double>> m) {
             int outputUnits = layers[layers.size()-1].nodes.size();
-            Matrix *result = new Matrix(m.height, outputUnits);
+            
+            std::vector<std::vector<double>> result;
+            result.resize(m.size(), std::vector<double>(outputUnits));
             
             // calculate prediction for each instance
-            for (int i=0;i<m.height;i++) {
+            for (int i=0;i<m.size();i++) {
             
                 predictInstance(m, i);
                 
                 // transfer the values from the final layer to the result
                 for (int j=0;j<outputUnits;j++) 
-                    result->set(i, j, layers[layers.size()-1].nodes[j].value);
+                    result[i][j] = layers[layers.size()-1].nodes[j].value;
             }
 
             return result;
@@ -317,10 +292,10 @@ class MLP {
          * for a single instance will calculate output units via
          * a forward pass through network
          */
-        void predictInstance(Matrix m, int row) {
+        void predictInstance(std::vector<std::vector<double>> m, int row) {
             // initialise input layer from data Matrix
-            for (int i=0;i<m.width;i++) {
-                layers[0].nodes[i].value = m.get(row,i);
+            for (int i=0;i<m[0].size();i++) {
+                layers[0].nodes[i].value = m[row][i];
             }      
             
             // calculates the values for all units in forward pass
@@ -335,19 +310,20 @@ class MLP {
          * gradients are calculated for every instance of data before
          * weights are updated
          */
-        void fit(Matrix m, std::vector<int> labels) {
+        void fit(vector<vector<double>> m, std::vector<int> labels) {
+
             // gradient descent
-            for (int epoch=0;epoch<4000;epoch++) {
+            for (int epoch=0;epoch<EPOCHS;epoch++) {
 
                 // loss is printed intermittently
-                if (epoch % 500 == 0) {
+                if (epoch % (EPOCHS/10) == 0) {
                     std::cout << "Epoch: " << std::setfill(' ') << 
                         std::setw(4) << epoch << " | ";
                     loss(m, labels);
                 }
 
                 // loop thorugh all data instances
-                for (int i=0;i<m.height;i++) {
+                for (int i=0;i<m.size();i++) {
                     // forward pass on instance
                     predictInstance(m, i);
 
@@ -367,7 +343,13 @@ class MLP {
                 } 
             }
 
+            // print final loss
+            std::cout << "Epoch: " << std::setfill(' ') << 
+                std::setw(4) << EPOCHS << " | ";
+            loss(m, labels);
+
             // print final weights
+            std::cout << "FINAL WEIGHTS" << std::endl;
             for (int i=0;i<layers.size();i++) {
                     layers[i].printWeights();
             } 
@@ -377,18 +359,18 @@ class MLP {
         /**
          * calculate loss function MSE value over all data 
          */
-        void loss(Matrix m, std::vector<int> labels) {
-            Matrix *result = predict(m);
+        void loss(std::vector<std::vector<double>> m, std::vector<int> labels) {
+            std::vector<std::vector<double>> result = predict(m);
             double loss=0;
 
             // calculate loss 
-            for (int i=0;i<m.height;i++) {
-                for (int j=0;j<result->width;j++)
-                    loss += (labels[i] - result->get(i,j)) * 
-                        (labels[i] - result->get(i,j));
+            for (int i=0;i<m.size();i++) {
+                for (int j=0;j<result[0].size();j++)
+                    loss += (labels[i] - result[i][j]) * 
+                        (labels[i] - result[i][j]);
             }
 
-            loss /= m.height;
+            loss /= m.size();
             
             std::cout << "loss: "<< loss << std::endl;
         }
@@ -401,52 +383,40 @@ class MLP {
 int main(int argc, char **argv){
     // build model architecture
     std::vector<int> layerSizes = {2,2,1};
-    MLP *mlp = new MLP(layerSizes);
+    MLP mlp(layerSizes);
 
     // set up XOR training data
     // [[0,0],[0,1],[1,0],[1,1]]
-    Matrix *m = new Matrix(4,2);
-    m->set(0,0,0);
-    m->set(0,1,0);
-   
-    m->set(1,0,0);
-    m->set(1,1,1);
+    std::vector<vector <double>> m = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     
-    m->set(2,0,1);
-    m->set(2,1,0);
-
-    m->set(3,0,1);
-    m->set(3,1,1);
-
     // label data for XOR training 
     // [0,0]->[0],[0,1]->[1],[1,0]->[1],[1,1]->[0]
     std::vector<int> labels = {0,1,1,0};
 
     // print training data
-    std::cout << "Training Data:" << std::endl;
-    for (int i=0;i<m->height;i++) {
+    std::cout << "TRAINING DATA" << std::endl;
+    for (int i=0;i<m.size();i++) {
         std::cout << "[";
-        for (int j=0;j<m->width;j++) {
-            std::cout << m->get(i,j) ;
+        for (int j=0;j<m[0].size();j++) {
+            std::cout << m[i][j] ;
         }
         std::cout << "] : " << labels[i] << std::endl;
     }
 
     // train the model
-    mlp->fit(*m, labels);
+    std::cout << "LEARNING CURVE" << std::endl;
+    mlp.fit(m, labels);
 
     // forward pass
-    Matrix *out = mlp->predict(*m);
+    std::vector<std::vector<double>> out = mlp.predict(m);
 
     // print prediction
-    for (int i=0;i<out->height;i++) {
-        std::cout << "[" << m->get(i,0) << ", " << m->get(i,1) << "] -> ";
-        for (int j=0;j<out->width;j++)
-            std::cout << out->get(i,j) << std::endl;
+    std::cout << "TEST PREDICTIONS" << std::endl;
+    for (int i=0;i<out.size();i++) {
+        std::cout << "[" << m[i][0] << ", " << m[i][1] << "] -> ";
+        for (int j=0;j<out[0].size();j++)
+            std::cout << out[i][j] << std::endl;
     }
-
-    // delete data matrix
-    m->del();
  
     return 0;
 }
