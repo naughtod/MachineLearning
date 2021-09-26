@@ -310,7 +310,7 @@ class MLP {
          * gradients are calculated for every instance of data before
          * weights are updated
          */
-        void fit(vector<vector<double>> m, std::vector<int> labels) {
+        void fit(ztd::vector<std::vector<double>> m, std::vector<int> labels) {
 
             // gradient descent
             for (int epoch=0;epoch<EPOCHS;epoch++) {
@@ -387,7 +387,7 @@ int main(int argc, char **argv){
 
     // set up XOR training data
     // [[0,0],[0,1],[1,0],[1,1]]
-    std::vector<vector <double>> m = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
+    std::vector<std::vector <double>> m = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     
     // label data for XOR training 
     // [0,0]->[0],[0,1]->[1],[1,0]->[1],[1,1]->[0]
