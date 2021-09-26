@@ -310,7 +310,7 @@ class MLP {
          * gradients are calculated for every instance of data before
          * weights are updated
          */
-        void fit(ztd::vector<std::vector<double>> m, std::vector<int> labels) {
+        void fit(std::vector<std::vector<double>> m, std::vector<int> labels) {
 
             // gradient descent
             for (int epoch=0;epoch<EPOCHS;epoch++) {
