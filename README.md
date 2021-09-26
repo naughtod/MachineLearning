@@ -4,7 +4,7 @@ Uses an object oriented approach with nodes and layers as opposed to
 matrices which makes it less efficient but hopefully easy to understand.
  
 All layers use sigmoid activation function, standard gradient descent 
-optimisation, all layers except output have a bias, learning rate is 0.2,
+optimisation, loss function is mean squared error, all layers except output have a bias, learning rate is 0.2,
 epochs is 4000. Note the predictions can be classified based on a decision 
 boundary of 0.5 (i.e. 0.4 -> 0, 0.6 -> 1) however I haven't implemented this 
 since it is more informative to know the value of the final output unit.  
