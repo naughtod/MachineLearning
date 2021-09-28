@@ -18,9 +18,9 @@ The main function contains training data for learning the XOR function so it can
     #include <math.h>
 
 ## Getting Started
-compile with `g++ -o mlp_gd mlp_gd.cpp`
+compile with `g++ -o mlp_bin_class mlp_bin_class.cpp`
 
-run with `./mlp_gd`
+run with `./mlp_bin_class`
 
 ## XOR test case output
     TRAINING DATA
