@@ -7,7 +7,7 @@ Hidden layers use sigmoid activation function, output layer uses softmax activat
 optimisation, loss function is cross entropy, all layers except output have a bias, learning rate is 0.001,
 epochs is 1500, weights are randomly initialised between 0 and 1.  
 
-The main function uses data from `iris.txt` (see repo) as training and label data so it can be run straight away to see what it does.
+The main function uses data from `iris.txt` (see repo) as training and label data so it can be run straight away to see what it does. The full data set is used for training and the accuracy reported is accuracy on the training set. This is just to show that the mlp model is learning but does not give any indication how well it generalises to unseen data. The loss continues to reduce as the Epochs goes up (after 10k Epochs, loss is approx. 0.30), however the accuracy also declines to about 91%. The highest accuracy achieved is approx 95% after around 1400 Epochs.
 
 ## Libraries Used
     #include <iostream>
@@ -17,9 +17,8 @@ The main function uses data from `iris.txt` (see repo) as training and label dat
     #include <fstream>
 
 ## Getting Started
-make sure file `iris.txt` is saved in the same directory as `mlp_multi_class`
-compile with `g++ -o mlp_multi_class mlp_multi_class.cpp`
-
+make sure file `iris.txt` is saved in the same folder as `mlp_multi_class`  
+compile with `g++ -o mlp_multi_class mlp_multi_class.cpp`  
 run with `./mlp_multi_class`
 
 ## IRIS test case output
