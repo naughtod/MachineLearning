@@ -73,7 +73,7 @@ run with `./mlp_multi_class`
     node: 2 weight 2: -0.37726
     node: 2 weight 3: -0.713208
     node: 2 weight 4: -0.373559
-    TEST PREDICTIONS
+    PREDICTIONS ON TRAINING DATA
     [1, 0, 0] -> [0.869199, 0.129249, 0.00155198]
     [1, 0, 0] -> [0.867821, 0.130595, 0.00158408]
     [1, 0, 0] -> [0.868294, 0.130133, 0.0015735]
