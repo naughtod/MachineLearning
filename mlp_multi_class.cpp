@@ -476,7 +476,7 @@ class MLP {
 
 
 /**
- * testing the MLP by learning the XOR function
+ * testing the MLP by learning on the IRIS dataset
  */
 int main(int argc, char **argv){
     // build model architecture
@@ -517,7 +517,7 @@ int main(int argc, char **argv){
     std::vector<std::vector<double>> out = mlp.predict(m);
 
     // print predictions
-    std::cout << "TEST PREDICTIONS" << std::endl;
+    std::cout << "PREDICTIONS ON THE TRAINING SET" << std::endl;
     for (int i=0;i<out.size();i++) {
         std::cout << "[" << labels[i][0] << ", " << labels[i][1] 
             << ", " << labels[i][2] << "] -> ";
