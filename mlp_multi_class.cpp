@@ -7,7 +7,7 @@
 /**
  * Multilayer Perceptron (MLP) implementation in C++ by David Naughton.
  * Uses an object oriented approach with nodes and layers as opposed to
- * matrices which makes it less efficient but hopefully easy to understand.
+ * matrices which hopefully makes it easy to understand.
  * 
  * Hidden layers use sigmoid activation function, output layer uses a softmax 
  * activation function, standard gradient descent optimisation, loss function is
