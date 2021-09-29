@@ -395,7 +395,7 @@ class MLP {
                 if (epoch % ((EPOCHS + EPOCH_PRINTS -  1) / EPOCH_PRINTS) == 0) {
                     std::cout << "Epoch: " << std::setfill(' ') << 
                         std::setw(PRINT_PADDING) << epoch << " | ";
-                    loss(m, labels, false);
+                    loss(m, labels);
                 }
 
                 // loop thorugh all data instances
@@ -422,7 +422,7 @@ class MLP {
             // print final loss
             std::cout << "Epoch: " << std::setfill(' ') << 
                 std::setw(PRINT_PADDING) << EPOCHS << " | ";
-            loss(m, labels, true);
+            loss(m, labels);
 
             // print final weights
             std::cout << "FINAL WEIGHTS" << std::endl;
@@ -436,7 +436,7 @@ class MLP {
          * calculate loss function value and accuracy over all data 
          */
         void loss(std::vector<std::vector<double>> m, 
-            std::vector<std::vector<int>> labels, bool last) {
+            std::vector<std::vector<int>> labels) {
             
             std::vector<std::vector<double>> result = predict(m);
 
