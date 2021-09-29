@@ -1,13 +1,13 @@
 ## About the Project
 Multilayer Perceptron (MLP) for Multi Class Classification implementation in C++.
 Uses an object oriented approach with nodes and layers as opposed to
-matrices which makes it less efficient but hopefully easy to understand.
+matrices which hopefully makes it easy to understand.
  
 Hidden layers use sigmoid activation function, output layer uses softmax activation function, standard gradient descent 
 optimisation, loss function is cross entropy, all layers except output have a bias, learning rate is 0.001,
 epochs is 1500, weights are randomly initialised between 0 and 1.  
 
-The main function uses data from `iris.txt` (see repo) as training and label data so it can be run straight away to see what it does. The full data set is used for training and the accuracy reported is accuracy on the training set. This is just to show that the mlp model is learning but does not give any indication how well it generalises to unseen data. The loss continues to reduce as the Epochs goes up (after 10k Epochs, loss is approx. 0.30), however the accuracy also declines to about 91%. The highest accuracy achieved is approx 95% after around 1400 Epochs.
+The main function uses data from `iris.txt` (see repo) as training and label data so it can be run straight away to see what it does. I've only added a single hidden layer of 4 nodes but you can have as many hidden layers as you like. The full data set is used for training and the accuracy reported is accuracy on the training set. This is just to show that the mlp model is learning but does not give any indication how well it generalises to unseen data. The loss continues to reduce as the Epochs goes up (after 10k Epochs, loss is approx. 0.30), however the accuracy also declines to about 91%. The highest accuracy achieved is approx 95% after around 1400 Epochs.
 
 ## Libraries Used
     #include <iostream>
