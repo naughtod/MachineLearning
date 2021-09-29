@@ -454,8 +454,10 @@ class MLP {
                     // calculate cross entropy loss
                     loss -= labels[i][j] * log2(result[i][j]);
 
-                    // get label index and max result index 
+                    // get label index
                     if (labels[i][j] == 1) labelIndex = j;
+                    
+                    // get max result index 
                     if (result[i][j] > rowMax) {
                         rowMax = result[i][j];
                         rowMaxIndex = j;  
