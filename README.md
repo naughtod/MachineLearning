@@ -28,7 +28,7 @@ Make sure your training data is loaded into a 2D vector of doubles where the wid
 
 Then you can fit the model with your training and label data by calling `mlp.fit(data, labels);`. This will train the weights of the network and output useful information such as the loss, accuracy and final weights.
 
-Now your model is trained you can pass it your test data in the same format as you training data and predict the labels by caling `std::vector<std::vector<double>> result = mlp.predict();` which will pass the softmax outputs from the final layer for each test instance into the 2D vector `result`.  
+Now your model is trained you can pass it your test data in the same format as you training data and predict the labels by caling `std::vector<std::vector<double>> result = mlp.predict(test_data);` which will pass the softmax outputs from the final layer for each test instance into the 2D vector `result`.  
 
 ## IRIS test case output
     LEARNING CURVE
