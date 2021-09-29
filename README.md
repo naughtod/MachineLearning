@@ -20,6 +20,15 @@ The main function uses data from `iris.txt` (see repo) as training and label dat
 make sure file `iris.txt` is saved in the same folder as `mlp_multi_class`  
 compile with `g++ -o mlp_multi_class mlp_multi_class.cpp`  
 run with `./mlp_multi_class`
+This will reproduce the test case output below.    
+
+To use the MLP class more generally. First create a vector where each element represents a layer and the value represents the number of nodes in the layer e.g. `std::vector<int> model = {4, 4, 3};` represents a model with three layers, first an input layer with 4 nodes, then a hidden layer with 4 nodes and finally an output layer with 3 nodes. Then pass this vector to the MLP constructor e.g. `MLP mlp(model);`
+
+Make sure your training data is loaded into a 2D vector of doubles where the width is equal to the number of nodes in your model input layer. Also make sure your labels are loaded into a 2D vector of ints where the width is equal to the number of nodes in your model output layer (n.b. if your labels are categorical you will need to one hot encode them). The height in both cases will be the number of instances in your data set.  
+
+Then you can fit the model with your training and label data by calling `mlp.fit(data, labels);`. This will train the weights of the network and output useful information such as the loss, accuracy and final weights.
+
+Now your model is trained you can pass it your test data in the same format as you training data and predict the labels by caling `std::vector<std::vector<double>> result = mlp.predict();` which will pass the softmax outputs from the final layer for each test instance into the 2D vector `result`.  
 
 ## IRIS test case output
     LEARNING CURVE
